@@ -1,13 +1,13 @@
 html {
     --container-size: 400px;
-    --remaining-path-color: #4b7f52;
+    --remaining-path-color: #2DAC36;
     font-family: 'Roboto Mono', monospace;
     /* font-family: 'Fira Code', monospace; */
     /* font-family: 'Courier New', Courier, monospace; */
     height: 100vh;
     margin: 0;
-    background-color: #0F042A;
-    color: #fff8e8;
+    background-color: #0E032B;
+    color: #FFF7E5;
     font-size: 20px;
 }
 

@@ -106,14 +106,14 @@ document.getElementById("start-btn").addEventListener("click", () => {
 
     colorCodes = {
         info: {
-            color: "#4b7f52" // green
+            color: "#2DAC36" // green
         },
         warning: {
-            color: "#ff785a", // orange
+            color: "#FF7A5C", // orange
             threshold: warningThreshold
         },
         alert: {
-            color: "#ed254e", // red
+            color: "#F1224C", // red
             threshold: alertThreshold
         }
     };
@@ -154,7 +154,7 @@ document.getElementById("reset-btn").addEventListener("click", () => {
     elapsedTime = 0;
     desiredTime = 0;
     baseTimerLabel.innerHTML = formatTimeLeft(desiredTime);
-    htmlEl.style.setProperty('--remaining-path-color', '#00ff00');
+    htmlEl.style.setProperty('--remaining-path-color', '#2DAC36');
     setCircleDasharray();
 
 }); 

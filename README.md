@@ -1,2 +1,2 @@
-# Timesense-Timer
+# TimeSense-Timer
  

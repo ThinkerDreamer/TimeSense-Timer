@@ -153,6 +153,9 @@ document.getElementById("reset-btn").addEventListener("click", () => {
     clearInterval(timerInterval);
     elapsedTime = 0;
     desiredTime = 0;
+    hoursEl.value = "";
+    minutesEl.value = "";
+    secondsEl.value = "";
     baseTimerLabel.innerHTML = formatTimeLeft(desiredTime);
     htmlEl.style.setProperty('--remaining-path-color', '#2DAC36');
     setCircleDasharray();

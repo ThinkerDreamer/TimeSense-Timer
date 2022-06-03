@@ -9,12 +9,15 @@
         href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Roboto+Mono:wght@400;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="styles/styles.css" type="text/css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
 <body>
     <div id="app">
         <h1>TimeSense Timer</h1>
-        <p>A visual timer to help you <em>really</em> see how much time you have left</p>
+        <!-- TODO: Hide description on a small screen -->
+        <!-- TODO: Publish to Github Pages and test on phone -->
+        <p id="description">A visual timer to help you <em>really</em> see how much time is left</p>
         <div class="base-timer">
             <svg class="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                 <g class="base-timer__circle">
@@ -34,11 +37,11 @@
         </div>
         <div class="controls-area">
             <div class="input-div">
-                <input class="time-input" id="hours" type="number" min="0" max="23" value="0">
+                <input class="time-input" id="hours" type="number" min="0" max="23" placeholder="h">
                 <span>:</span>
-                <input class="time-input" id="minutes" type="number" min="0" max="59" value="0">
+                <input class="time-input" id="minutes" type="number" min="0" max="59" placeholder="m">
                 <span>:</span>
-                <input class="time-input" id="seconds" type="number" min="0" max="59" value="0">
+                <input class="time-input" id="seconds" type="number" min="0" max="59" placeholder="s">
             </div>
             <div class="button-div">
                 <button id="start-btn">Start</button>

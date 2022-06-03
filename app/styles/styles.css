@@ -135,3 +135,23 @@ button {
     /* Flips the svg and makes the animation to move left-to-right */
     transform: scaleX(-1);
 }
+
+@media screen and (max-width: 500px) {
+    html {
+        font-size: 16px;
+    }
+
+    .base-timer__label {
+        font-size: 2rem;
+    }
+
+    /* .base-timer__path-remaining {
+        stroke-width: 5px;
+    } */
+
+    .description {
+        display: none;
+    }
+}
+
+}

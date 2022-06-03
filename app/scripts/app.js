@@ -52,6 +52,7 @@ function startTimer() {
 
             // If the time is up, the timer is stopped
             if (timeLeft <= 0) {
+                confetti();
                 running = false;
                 clearInterval(timerInterval);
             }

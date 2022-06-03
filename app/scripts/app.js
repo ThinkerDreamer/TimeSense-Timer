@@ -1,12 +1,20 @@
 let desiredTime = 0;
 let elapsedTime = 0;
 let timeLeft = 0;
+let timerInterval = null;
+const FULL_DASH_ARRAY = 283; // The diameter in arbitrary units for a circle with radius of 45 units
+let warningThreshold = 10;
+let alertThreshold = 25;
+let colorCodes = {}
+
+const htmlEl = document.querySelector("html");
 const hoursEl = document.getElementById("hours")
 const minutesEl = document.getElementById("minutes")
 const secondsEl = document.getElementById("seconds")
 const baseTimerLabel = document.getElementById("base-timer-label");
 let running = false;
 
+/* Returns a string of the time passed as an argument */
 function formatTimeLeft(time) { // user-set time in seconds
     let hours = Math.floor(time / 3600);
     let minutes = Math.floor((time % 3600) / 60);
@@ -15,13 +23,13 @@ function formatTimeLeft(time) { // user-set time in seconds
     seconds = zeroPad(seconds);
     minutes = zeroPad(minutes);
     hours = zeroPad(hours);
-    console.log(`${hours}:${minutes}:${seconds}`);
 
     return `${hours}:${minutes}:${seconds}`;
 }
 
 baseTimerLabel.innerText = formatTimeLeft(timeLeft);
 
+/* Utility function to zero-pad numbers when needed */
 function zeroPad(unit) {
     if (unit < 10) {
         return `0${unit}`;
@@ -29,27 +37,18 @@ function zeroPad(unit) {
     return unit;
 }
 
-let timerInterval = null;
-
-const COLOR_CODES = {
-    info: {
-        color: "green"
-    }
-};
-
-let remainingPathColor = COLOR_CODES.info.color;
-document.getElementById("base-timer-path-remaining").classList.add(remainingPathColor);
-
 function startTimer() {
     if (!running) {
         running = true;
         timerInterval = setInterval(() => {
-            // The amount of time passed increments by one
+            // Increment the elapsed time by 1 second
             elapsedTime++;
             timeLeft = desiredTime - elapsedTime;
 
-            // The time left label is updated
+            // Update time left and time fraction
             baseTimerLabel.innerHTML = formatTimeLeft(timeLeft);
+            setRemainingPathColor(timeLeft);
+            setCircleDasharray();
 
             // If the time is up, the timer is stopped
             if (timeLeft <= 0) {
@@ -60,11 +59,64 @@ function startTimer() {
     }
 }
 
+// Divides time left by the defined time limit.
+function calculateTimeFraction() {
+    return timeLeft / desiredTime;
+}
+
+// Update the dasharray value as time passes, starting with 283
+function setCircleDasharray() {
+    const circleDasharray = `${(calculateTimeFraction() * FULL_DASH_ARRAY)
+        .toFixed(0)} 283`; // first number is remaining, second is total (283)
+    document
+        .getElementById("base-timer-path-remaining")
+        .setAttribute("stroke-dasharray", circleDasharray);
+}
+
+function setRemainingPathColor(timeLeft) {
+    const { alert, warning, info } = colorCodes;
+
+    // If the remaining time is less than or equal to 25%, change the color to orange
+    if (timeLeft <= alert.threshold) {
+        htmlEl.style.setProperty('--remaining-path-color', alert.color)
+
+        // If the remaining time is less than or equal to 10%, change the color to red
+    } else if (timeLeft <= warning.threshold) {
+        htmlEl.style.setProperty('--remaining-path-color', warning.color);
+        // Otherwise, set the color to green
+    } else {
+        htmlEl.style.setProperty('--remaining-path-color', info.color);
+    }
+}
+
+/* Start button event listener */
 document.getElementById("start-btn").addEventListener("click", () => {
-    let hours = hoursEl.value;
-    let minutes = minutesEl.value;
-    let seconds = secondsEl.value;
-    desiredTime = (hours * 3600) + (minutes * 60) + (seconds * 1);
+    if (timeLeft <= 0) {
+        let hours = hoursEl.value;
+        let minutes = minutesEl.value;
+        let seconds = secondsEl.value;
+        desiredTime = (hours * 3600) + (minutes * 60) + (seconds * 1);
+    } else if (timeLeft > 0) {
+        hoursEl.value = "";
+        minutesEl.value = "";
+        secondsEl.value = "";
+    }
+    warningThreshold = (desiredTime * 0.25);
+    alertThreshold = (desiredTime * 0.10);
+
+    colorCodes = {
+        info: {
+            color: "#4b7f52" // green
+        },
+        warning: {
+            color: "#ff785a", // orange
+            threshold: warningThreshold
+        },
+        alert: {
+            color: "#ed254e", // red
+            threshold: alertThreshold
+        }
+    };
 
     if (desiredTime > 0) {
         console.log(`
@@ -81,6 +133,7 @@ document.getElementById("start-btn").addEventListener("click", () => {
     }
 });
 
+/* Pause button event listener */
 document.getElementById("pause-btn").addEventListener("click", () => {
     running = false;
     const originalHtml = baseTimerLabel.innerHTML;
@@ -91,15 +144,17 @@ document.getElementById("pause-btn").addEventListener("click", () => {
             &nbsp;&nbsp;:&nbsp;&nbsp;:&nbsp;&nbsp;
             ` : originalHtml;
     }, 500);
+    //&nbsp;&nbsp;:&nbsp;&nbsp;:&nbsp;&nbsp;
 });
 
+/* Reset button event listener */
 document.getElementById("reset-btn").addEventListener("click", () => {
     running = false;
     clearInterval(timerInterval);
     elapsedTime = 0;
     desiredTime = 0;
     baseTimerLabel.innerHTML = formatTimeLeft(desiredTime);
-    hoursEl.value = 0;
-    minutesEl.value = 0;
-    secondsEl.value = 0;
+    htmlEl.style.setProperty('--remaining-path-color', '#00ff00');
+    setCircleDasharray();
+
 }); 

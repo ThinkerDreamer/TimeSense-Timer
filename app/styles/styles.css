@@ -1,16 +1,36 @@
 html {
-    --container-size: 300px;
-    --remaining-path-color: #00ff00;
-    font-family: 'Courier New', Courier, monospace;
+    --container-size: 400px;
+    --remaining-path-color: #4b7f52;
+    font-family: 'Roboto Mono', monospace;
+    /* font-family: 'Fira Code', monospace; */
+    /* font-family: 'Courier New', Courier, monospace; */
     height: 100vh;
     margin: 0;
     background-color: #0F042A;
     color: #fff8e8;
+    font-size: 20px;
+}
+
+h1 {
+    font-weight: 400;
+}
+
+p {
+    line-height: 1.6;
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+}
+
+em {
+    font-style: normal;
+    font-weight: bold;
+    color: #ffefca;
 }
 
 #app {
     width: var(--container-size);
     margin: 4em auto 0;
+    text-align: center;
 }
 
 .controls-area {
@@ -18,7 +38,7 @@ html {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: 3em 0;
+    margin: 2rem 0;
 }
 
 .input-div {
@@ -91,4 +111,27 @@ button {
     align-items: center;
     justify-content: center;
 
+}
+
+.base-timer__path-remaining {
+    /* Just as thick as the original ring */
+    stroke-width: 7px;
+
+    /* Rounds the line endings to create a seamless circle */
+    stroke-linecap: round;
+
+    /* Makes sure the animation starts at the top of the circle */
+    transform: rotate(90deg);
+    transform-origin: center;
+
+    /* One second aligns with the speed of the countdown timer */
+    transition: 1s linear all;
+
+    /* Allows the ring to change color when the color value updates */
+    stroke: currentColor;
+}
+
+.base-timer__svg {
+    /* Flips the svg and makes the animation to move left-to-right */
+    transform: scaleX(-1);
 }

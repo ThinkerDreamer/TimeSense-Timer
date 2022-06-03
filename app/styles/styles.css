@@ -1,0 +1,94 @@
+html {
+    --container-size: 300px;
+    --remaining-path-color: #00ff00;
+    font-family: 'Courier New', Courier, monospace;
+    height: 100vh;
+    margin: 0;
+    background-color: #0F042A;
+    color: #fff8e8;
+}
+
+#app {
+    width: var(--container-size);
+    margin: 4em auto 0;
+}
+
+.controls-area {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 3em 0;
+}
+
+.input-div {
+    width: 75%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.time-input {
+    display: inline-block;
+    width: 3em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 0.5em 1.2em;
+    font-size: 1rem;
+}
+
+.button-div {
+    width: 85%;
+    display: flex;
+    justify-content: space-between;
+    margin: 1em 0;
+}
+
+.remaining-path-color {
+    color: var(--remaining-path-color);
+}
+
+button {
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 0.5em 1.25em;
+    font-size: 1rem;
+}
+
+/* Sets the containers height and width */
+.base-timer {
+    position: relative;
+    height: var(--container-size);
+    width: var(--container-size);
+}
+
+/* Removes SVG styling that would hide the time label */
+.base-timer__circle {
+    fill: none;
+    stroke: none;
+}
+
+/* The SVG path that displays the timer's progress */
+.base-timer__path-elapsed {
+    stroke-width: 7px;
+    stroke: grey;
+}
+
+.base-timer__label {
+    position: absolute;
+    font-size: 3rem;
+
+    /* Size should match the parent container */
+    width: var(--container-size);
+    height: var(--container-size);
+
+    /* Keep the label aligned to the top */
+    top: 0;
+
+    /* Create a flexible box that centers content vertically and horizontally */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}

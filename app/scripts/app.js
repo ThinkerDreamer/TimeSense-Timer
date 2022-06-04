@@ -13,6 +13,7 @@ const minutesEl = document.getElementById("minutes")
 const secondsEl = document.getElementById("seconds")
 const baseTimerLabel = document.getElementById("base-timer-label");
 const sound = new Audio('assets/handpan.wav');
+sound.volume = 0.45;
 
 /* Returns a string of the time passed as an argument */
 function formatTimeLeft(time) { // user-set time in seconds

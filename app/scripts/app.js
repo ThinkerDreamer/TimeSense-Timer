@@ -1,18 +1,18 @@
+let timeLeft = 0;
 let desiredTime = 0;
 let elapsedTime = 0;
-let timeLeft = 0;
+let running = false;
 let timerInterval = null;
-const FULL_DASH_ARRAY = 283; // The diameter in arbitrary units for a circle with radius of 45 units
 let warningThreshold = 10;
 let alertThreshold = 25;
 let colorCodes = {}
-
+const FULL_DASH_ARRAY = 283; // The diameter in arbitrary units for a circle with radius of 45 units
 const htmlEl = document.querySelector("html");
 const hoursEl = document.getElementById("hours")
 const minutesEl = document.getElementById("minutes")
 const secondsEl = document.getElementById("seconds")
 const baseTimerLabel = document.getElementById("base-timer-label");
-let running = false;
+const sound = new Audio('assets/handpan.wav');
 
 /* Returns a string of the time passed as an argument */
 function formatTimeLeft(time) { // user-set time in seconds
@@ -52,6 +52,7 @@ function startTimer() {
 
             // If the time is up, the timer is stopped
             if (timeLeft <= 0) {
+                sound.play();
                 confetti();
                 running = false;
                 elapsedTime = 0;
@@ -121,15 +122,6 @@ document.getElementById("start-btn").addEventListener("click", () => {
     };
 
     if (desiredTime > 0) {
-        // console.log(`
-        //     desiredTime = ${desiredTime},
-        //     which is ${Math.floor((desiredTime % 3600) / 60)} minutes,
-        //     showing up as ${minutes} minutes.
-        //     Minutes * 60 = ${minutes * 60}.
-        //     Minutes * 60 + seconds = ${minutes * 60 + seconds}.
-        //     Minutes * 6 = ${minutes * 6}.
-        //     Hours is ${hours} and seconds is ${seconds}.
-        //     `);
         clearInterval(timerInterval);
         startTimer();
     }
@@ -146,7 +138,6 @@ document.getElementById("pause-btn").addEventListener("click", () => {
             &nbsp;&nbsp;:&nbsp;&nbsp;:&nbsp;&nbsp;
             ` : originalHtml;
     }, 500);
-    //&nbsp;&nbsp;:&nbsp;&nbsp;:&nbsp;&nbsp;
 });
 
 /* Reset button event listener */
@@ -162,5 +153,4 @@ document.getElementById("reset-btn").addEventListener("click", () => {
     baseTimerLabel.innerHTML = formatTimeLeft(desiredTime);
     htmlEl.style.setProperty('--remaining-path-color', '#2DAC36');
     setCircleDasharray();
-
 }); 

@@ -54,6 +54,7 @@ function startTimer() {
             if (timeLeft <= 0) {
                 confetti();
                 running = false;
+                elapsedTime = 0;
                 clearInterval(timerInterval);
             }
         }, 1000);
@@ -92,6 +93,8 @@ function setRemainingPathColor(timeLeft) {
 
 /* Start button event listener */
 document.getElementById("start-btn").addEventListener("click", () => {
+    console.log(`Now timeLeft is ${timeLeft} and desiredTime is ${desiredTime}`);
+    console.log(`And elapsedTime is ${elapsedTime}`);
     if (timeLeft <= 0) {
         let hours = hoursEl.value;
         let minutes = minutesEl.value;
@@ -106,9 +109,7 @@ document.getElementById("start-btn").addEventListener("click", () => {
     alertThreshold = (desiredTime * 0.10);
 
     colorCodes = {
-        info: {
-            color: "#2DAC36" // green
-        },
+        info: { color: "#2DAC36" }, // green 
         warning: {
             color: "#FF7A5C", // orange
             threshold: warningThreshold
@@ -120,15 +121,15 @@ document.getElementById("start-btn").addEventListener("click", () => {
     };
 
     if (desiredTime > 0) {
-        console.log(`
-            desiredTime = ${desiredTime},
-            which is ${Math.floor((desiredTime % 3600) / 60)} 
-            minutes, showing up as ${minutes} minutes.
-            Minutes * 60 = ${minutes * 60}.
-            Minutes * 60 + seconds = ${minutes * 60 + seconds}.
-            Minutes * 6 = ${minutes * 6}.
-            Hours is ${hours} and seconds is ${seconds}.
-            `);
+        // console.log(`
+        //     desiredTime = ${desiredTime},
+        //     which is ${Math.floor((desiredTime % 3600) / 60)} minutes,
+        //     showing up as ${minutes} minutes.
+        //     Minutes * 60 = ${minutes * 60}.
+        //     Minutes * 60 + seconds = ${minutes * 60 + seconds}.
+        //     Minutes * 6 = ${minutes * 6}.
+        //     Hours is ${hours} and seconds is ${seconds}.
+        //     `);
         clearInterval(timerInterval);
         startTimer();
     }
@@ -153,6 +154,7 @@ document.getElementById("reset-btn").addEventListener("click", () => {
     running = false;
     clearInterval(timerInterval);
     elapsedTime = 0;
+    timeLeft = 0;
     desiredTime = 0;
     hoursEl.value = "";
     minutesEl.value = "";

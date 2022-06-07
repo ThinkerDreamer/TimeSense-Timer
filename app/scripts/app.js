@@ -8,7 +8,9 @@ let alertThreshold = 25;
 let colorCodes = {};
 const FULL_DASH_ARRAY = 283; // The diameter in arbitrary units for a circle with radius of 45 units
 const htmlEl = document.querySelector("html");
+const bodyEl = document.querySelector("body");
 const titleEl = document.querySelector("#title");
+const popOutIcon = document.querySelector(".pop-out-icon");
 const hoursEl = document.querySelector("#hours");
 const minutesEl = document.querySelector("#minutes");
 const secondsEl = document.querySelector("#seconds");
@@ -44,6 +46,12 @@ function zeroPad(unit) {
 }
 
 function startTimer() {
+    bodyEl.addEventListener("mouseover", () => {
+        buttonDiv.style.display = "flex";
+    });
+    bodyEl.addEventListener("mouseout", () => {
+        buttonDiv.style.display = "none";
+    });
     timerInterval = setInterval(() => {
         // Decrement the time left by 1 second
         timeLeft--;
@@ -163,4 +171,10 @@ document.getElementById("reset-btn").addEventListener("click", () => {
     baseTimerLabel.innerHTML = formatTimeLeft(desiredTime);
     htmlEl.style.setProperty('--remaining-path-color', '#2DAC36');
     setCircleDasharray();
-}); 
+});
+
+/* Pop out icon event listener */
+popOutIcon.addEventListener("click", () => {
+    let newWindow = window.open("#", "_blank",
+        "popup, toolbar=no, menubar=no, status=no, height=555, width=350");
+});

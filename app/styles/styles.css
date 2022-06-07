@@ -3,8 +3,6 @@ html {
     --max-container-size: 400px;
     --remaining-path-color: #2DAC36;
     font-family: 'Roboto Mono', monospace;
-    /* font-family: 'Fira Code', monospace; */
-    /* font-family: 'Courier New', Courier, monospace; */
     max-height: 100vh;
     margin: 0;
     background-color: #0E032B;
@@ -15,6 +13,7 @@ html {
 h1 {
     font-weight: 400;
     margin-top: 0;
+    margin-bottom: 5px;
 }
 
 p {
@@ -35,6 +34,18 @@ em {
     min-width: 150px;
     margin: 2em auto 0;
     text-align: center;
+}
+
+.pop-out-icon {
+    display: flex;
+    justify-content: end;
+    margin-top: 0;
+    cursor: pointer;
+}
+
+.pop-out-icon:hover,
+.pop-out-icon:focus {
+    color: #ffefca;
 }
 
 .controls-area {
@@ -94,6 +105,7 @@ button {
     font-size: 1rem;
     background-color: #FFF7E5;
     color: #0E032B;
+    cursor: pointer;
 }
 
 #pause-btn {

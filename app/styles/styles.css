@@ -1,18 +1,20 @@
 html {
-    --container-size: 400px;
+    --container-size: 70vw;
+    --max-container-size: 400px;
     --remaining-path-color: #2DAC36;
     font-family: 'Roboto Mono', monospace;
     /* font-family: 'Fira Code', monospace; */
     /* font-family: 'Courier New', Courier, monospace; */
-    height: 100vh;
+    max-height: 100vh;
     margin: 0;
     background-color: #0E032B;
     color: #FFF7E5;
-    font-size: 20px;
+    font-size: 1.2vw;
 }
 
 h1 {
     font-weight: 400;
+    margin-top: 0;
 }
 
 p {
@@ -29,7 +31,9 @@ em {
 
 #app {
     width: var(--container-size);
-    margin: 4em auto 0;
+    max-width: var(--max-container-size);
+    min-width: 150px;
+    margin: 2em auto 0;
     text-align: center;
 }
 
@@ -38,7 +42,7 @@ em {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: 2rem 0;
+    margin: 2rem 0 0;
 }
 
 .input-div {
@@ -53,14 +57,28 @@ em {
     width: 3em;
     border: 1px solid #ccc;
     border-radius: 4px;
-    padding: 0.5em 1.2em;
+    padding: 0.5em;
     font-size: 1rem;
+    background-color: #FFF7E5;
+}
+
+/* --- Hide arrows in number inputs --- */
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
 }
 
 .button-div {
     width: 85%;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     margin: 1em 0;
 }
 
@@ -74,13 +92,21 @@ button {
     border-radius: 4px;
     padding: 0.5em 1.25em;
     font-size: 1rem;
+    background-color: #FFF7E5;
+    color: #0E032B;
+}
+
+#pause-btn {
+    display: none;
 }
 
 /* Sets the containers height and width */
 .base-timer {
     position: relative;
     height: var(--container-size);
+    max-height: var(--max-container-size);
     width: var(--container-size);
+    max-width: var(--max-container-size);
 }
 
 /* Removes SVG styling that would hide the time label */
@@ -91,7 +117,7 @@ button {
 
 /* The SVG path that displays the timer's progress */
 .base-timer__path-elapsed {
-    stroke-width: 7px;
+    stroke-width: 9px;
     stroke: grey;
 }
 
@@ -101,7 +127,9 @@ button {
 
     /* Size should match the parent container */
     width: var(--container-size);
+    max-width: var(--max-container-size);
     height: var(--container-size);
+    max-height: var(--max-container-size);
 
     /* Keep the label aligned to the top */
     top: 0;
@@ -115,7 +143,7 @@ button {
 
 .base-timer__path-remaining {
     /* Just as thick as the original ring */
-    stroke-width: 7px;
+    stroke-width: 9px;
 
     /* Rounds the line endings to create a seamless circle */
     stroke-linecap: round;
@@ -136,18 +164,21 @@ button {
     transform: scaleX(-1);
 }
 
+@media screen and (max-width: 1300px) {
+    html {
+        font-size: 1.2rem;
+    }
+
+}
+
 @media screen and (max-width: 500px) {
     html {
-        font-size: 16px;
+        font-size: 5vw;
     }
 
     .base-timer__label {
         font-size: 2rem;
     }
-
-    /* .base-timer__path-remaining {
-        stroke-width: 5px;
-    } */
 
     .description {
         display: none;

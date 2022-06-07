@@ -8,12 +8,15 @@ let alertThreshold = 25;
 let colorCodes = {};
 const FULL_DASH_ARRAY = 283; // The diameter in arbitrary units for a circle with radius of 45 units
 const htmlEl = document.querySelector("html");
-const hoursEl = document.getElementById("hours");
-const minutesEl = document.getElementById("minutes");
-const secondsEl = document.getElementById("seconds");
-const baseTimerLabel = document.getElementById("base-timer-label");
-const startBtn = document.getElementById("start-btn");
-const pauseBtn = document.getElementById("pause-btn");
+const titleEl = document.querySelector("#title");
+const hoursEl = document.querySelector("#hours");
+const minutesEl = document.querySelector("#minutes");
+const secondsEl = document.querySelector("#seconds");
+const baseTimerLabel = document.querySelector("#base-timer-label");
+const startBtn = document.querySelector("#start-btn");
+const pauseBtn = document.querySelector("#pause-btn");
+const inputDiv = document.querySelector(".input-div");
+const buttonDiv = document.querySelector(".button-div");
 const sound = new Audio('assets/handpan.wav');
 sound.volume = 0.45;
 
@@ -42,10 +45,10 @@ function zeroPad(unit) {
 
 function startTimer() {
     timerInterval = setInterval(() => {
-        // Increment the elapsed time by 1 second
+        // Decrement the time left by 1 second
         timeLeft--;
 
-        // Update time left and time fraction
+        // Update time fraction, redraw circle
         baseTimerLabel.innerHTML = formatTimeLeft(timeLeft);
         setRemainingPathColor(timeLeft);
         setCircleDasharray();
@@ -53,11 +56,11 @@ function startTimer() {
         // If the time is up, the timer is stopped
         if (timeLeft <= 0) {
             pauseBtn.style.display = "none";
-            startBtn.style.display = "block";
+            buttonDiv.style.justifyContent = "center";
             desiredTime = 0;
+            clearInterval(timerInterval);
             sound.play();
             confetti();
-            clearInterval(timerInterval);
         }
     }, 1000);
 }
@@ -94,6 +97,8 @@ function setRemainingPathColor(timeLeft) {
 startBtn.addEventListener("click", () => {
     startBtn.style.display = "none";
     pauseBtn.style.display = "block";
+    inputDiv.style.display = "none";
+    titleEl.style.display = "none";
     if (desiredTime > 0) { // unpause
         clearInterval(timerInterval); //clear flashing time
         startTimer();
@@ -143,8 +148,11 @@ pauseBtn.addEventListener("click", () => {
 
 /* Reset button event listener */
 document.getElementById("reset-btn").addEventListener("click", () => {
+    titleEl.style.display = "block";
     pauseBtn.style.display = "none";
     startBtn.style.display = "block";
+    inputDiv.style.display = "flex";
+    buttonDiv.style.justifyContent = "space-evenly";
     clearInterval(timerInterval);
     timeLeft = 0;
     desiredTime = 0;

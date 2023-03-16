@@ -18,43 +18,43 @@ html {
   --new-background-color: #190933;
   --new-purple: #b084cc;
   --new-grey: #bdbfc7;
-  font-family: 'Roboto Mono', monospace;
   max-height: 100vh;
   margin: 0;
-  background-color: var(--new-background-color);
   color: var(--new-text-color);
   font-size: 1.2vw;
+  font-family: 'Roboto Mono', monospace;
+  background-color: var(--new-background-color);
 }
 
 header {
-  margin: 0 auto;
   width: 80vw;
+  margin: 0 auto;
 }
 
 h1 {
-  font-weight: 500;
   margin-top: 0;
   margin-bottom: 5px;
+  font-weight: 500;
   font-size: 3rem;
   text-align: center;
 }
 
 p {
-  line-height: 1.6;
-  font-size: 1.2rem;
   margin-bottom: 2rem;
+  font-size: 1.2rem;
+  line-height: 1.6;
 }
 
 em {
-  font-style: normal;
-  font-weight: bold;
   color: var(--new-text-color);
+  font-weight: bold;
+  font-style: normal;
 }
 
 main {
   width: var(--container-size);
-  max-width: var(--max-container-size);
   min-width: 150px;
+  max-width: var(--max-container-size);
   margin: 2em auto 0;
   text-align: center;
 }
@@ -74,46 +74,47 @@ main {
 .controls-area {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   margin: 2rem 0 0;
 }
 
 .input-div {
-  width: 75%;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  width: 75%;
 }
 
 .time-input {
   display: inline-block;
   width: 3em;
-  border: none;
-  border-radius: 4px;
   padding: 0.5em;
+  color: var(--new-background-color);
   font-size: 1rem;
   background-color: var(--new-text-color);
-  color: var(--new-background-color);
+  border: none;
+  border-radius: 4px;
 }
 
 /* --- Hide arrows in number inputs --- */
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
   margin: 0;
+  -webkit-appearance: none;
 }
 
 /* Firefox */
 input[type='number'] {
   -moz-appearance: textfield;
+  appearance: textfield;
 }
 
 .button-div {
-  width: 85%;
   display: flex;
   justify-content: space-evenly;
+  width: 85%;
   margin: 1em 0;
 }
 
@@ -123,12 +124,12 @@ input[type='number'] {
 
 button {
   display: inline-block;
-  border: none;
-  border-radius: 4px;
   padding: 0.5em 1.25em;
+  color: var(--new-background-color);
   font-size: 1rem;
   background-color: var(--new-red);
-  color: var(--new-background-color);
+  border: none;
+  border-radius: 4px;
   cursor: pointer;
 }
 
@@ -139,10 +140,10 @@ button {
 /* Sets the containers height and width */
 .base-timer {
   position: relative;
-  height: var(--container-size);
-  max-height: var(--max-container-size);
   width: var(--container-size);
   max-width: var(--max-container-size);
+  height: var(--container-size);
+  max-height: var(--max-container-size);
 }
 
 /* Removes SVG styling that would hide the time label */
@@ -153,20 +154,12 @@ button {
 
 /* The SVG path that displays the timer's progress */
 .base-timer__path-elapsed {
-  stroke-width: 9px;
   stroke: grey;
+  stroke-width: 9px;
 }
 
 .base-timer__label {
   position: absolute;
-  font-size: 3rem;
-  color: var(--new-grey);
-
-  /* Size should match the parent container */
-  width: var(--container-size);
-  max-width: var(--max-container-size);
-  height: var(--container-size);
-  max-height: var(--max-container-size);
 
   /* Keep the label aligned to the top */
   top: 0;
@@ -175,15 +168,17 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
+
+  /* Size should match the parent container */
+  width: var(--container-size);
+  max-width: var(--max-container-size);
+  height: var(--container-size);
+  max-height: var(--max-container-size);
+  color: var(--new-grey);
+  font-size: 3rem;
 }
 
 .base-timer__path-remaining {
-  /* Just as thick as the original ring */
-  stroke-width: 9px;
-
-  /* Rounds the line endings to create a seamless circle */
-  stroke-linecap: round;
-
   /* Makes sure the animation starts at the top of the circle */
   transform: rotate(90deg);
   transform-origin: center;
@@ -193,6 +188,11 @@ button {
 
   /* Allows the ring to change color when the color value updates */
   stroke: currentColor;
+  /* Just as thick as the original ring */
+  stroke-width: 9px;
+
+  /* Rounds the line endings to create a seamless circle */
+  stroke-linecap: round;
 }
 
 .base-timer__svg {

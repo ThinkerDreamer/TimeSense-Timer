@@ -1,0 +1,31 @@
+.inputDiv {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 75%;
+}
+
+.timeInput {
+  display: inline-block;
+  width: 3em;
+  padding: 0.5em;
+  color: var(--new-background-color);
+  font-size: 1rem;
+  background-color: var(--new-text-color);
+  border: none;
+  border-radius: 4px;
+}
+
+/* --- Hide arrows in number inputs --- */
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  margin: 0;
+  -webkit-appearance: none;
+}
+
+/* Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}

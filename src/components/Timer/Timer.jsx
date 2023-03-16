@@ -4,15 +4,15 @@ import styles from './Timer.module.css';
 import { TimeContext } from '../../context/TimeContext/TimeContextProvider';
 
 const FULL_DASH_ARRAY = 283; // The diameter in arbitrary units for a circle with radius of 45 units
-const docStyle = getComputedStyle(document.documentElement);
+const compDocStyle = getComputedStyle(document.documentElement);
 
 const COLOR_CODES = {
-  info: { color: docStyle.getPropertyValue('--new-green') }, // green
+  info: { color: compDocStyle.getPropertyValue('--new-green') }, // green
   warning: {
-    color: docStyle.getPropertyValue('--new-orange'), // orange
+    color: compDocStyle.getPropertyValue('--new-orange'), // orange
   },
   alert: {
-    color: docStyle.getPropertyValue('--new-red'), // red
+    color: compDocStyle.getPropertyValue('--new-red'), // red
   },
 };
 
@@ -28,15 +28,23 @@ function Timer() {
   ).toFixed(0)} 283`;
 
   const { alert, warning, info } = COLOR_CODES;
+
+  function setCssVarColor(property, newColor) {
+    document.documentElement.style.setProperty(
+      `${property}`,
+      newColor
+    );
+  }
+
   // If the remaining time is less than or equal to 10%, change the color to red
   if (secondsRemaining <= timerDuration) {
-    docStyle.setProperty('--remaining-path-color', alert.color);
+    setCssVarColor('--remaining-path-color', alert.color);
     // If the remaining time is less than or equal to 25%, change the color to orange
   } else if (secondsRemaining <= timerDuration) {
-    docStyle.setProperty('--remaining-path-color', warning.color);
+    setCssVarColor('--remaining-path-color', warning.color);
     // Otherwise, set the color to green
   } else {
-    docStyle.setProperty('--remaining-path-color', info.color);
+    setCssVarColor('--remaining-path-color', info.color);
   }
 
   return (

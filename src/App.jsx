@@ -11,26 +11,45 @@ sound.volume = 0.45;
 function App() {
   const [showButtons, setShowButtons] = React.useState(true);
   const [showPause, setShowPause] = React.useState(false);
+  const [isTimerRunning, setIsTimerRunning] = React.useState(false);
   const { secondsRemaining, desiredTime, setDesiredTime } =
     React.useContext(TimeContext);
 
   React.useEffect(() => {
-    window.addEventListener('mouseover', () => {
-      setShowButtons(true);
-    });
-    window.addEventListener('mouseout', () => {
-      setShowButtons(false);
-    });
-  }, []);
+    if (isTimerRunning) {
+      window.addEventListener('mouseover', () => {
+        setShowButtons(true);
+      });
+      window.addEventListener('mouseout', () => {
+        setShowButtons(false);
+      });
+    }
+
+    return () => {
+      window.removeEventListener('mouseover', () => {
+        setShowButtons(true);
+      });
+      window.removeEventListener('mouseout', () => {
+        setShowButtons(false);
+      });
+    };
+  }, [isTimerRunning]);
 
   function handleStart() {
     if (secondsRemaining <= 0) {
+      setIsTimerRunning(false);
       setShowPause(false);
       setShowButtons(true);
       setDesiredTime(0);
       sound.play();
       confetti();
+      return;
     }
+    setIsTimerRunning(true);
+    setDesiredTime();
+    setInterval(() => {
+      // console.log(`timer is running`);
+    }, 1000);
   }
 
   return (

@@ -1,5 +1,5 @@
 import React from 'react';
-import { formatTime } from '../../utilities/formatTime';
+import formatTime from '../../utilities/formatTime';
 import styles from './Timer.module.css';
 import { TimeContext } from '../../context/TimeContext/TimeContextProvider';
 

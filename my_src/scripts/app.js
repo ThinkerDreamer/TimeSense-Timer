@@ -1,4 +1,4 @@
-import 'canvas-confetti';
+import confetti from 'canvas-confetti';
 
 let timeLeft = 0;
 let desiredTime = 0;
@@ -23,7 +23,6 @@ const buttonDiv = document.querySelector('.button-div');
 const sound = new Audio('assets/handpan.wav');
 sound.volume = 0.45;
 const rootStyles = getComputedStyle(htmlEl);
-const confetti = require('canvas-confetti');
 
 const OLD_COLOR_CODES = {
   info: { color: '#2DAC36' }, // green
@@ -193,7 +192,7 @@ document.getElementById('reset-btn').addEventListener('click', () => {
 
 /* Pop out icon event listener */
 popOutIcon.addEventListener('click', () => {
-  let newWindow = window.open(
+  window.open(
     '#',
     '_blank',
     'popup, toolbar=no, menubar=no, status=no, height=555, width=350'

@@ -1,10 +1,14 @@
 import React from 'react';
 import styles from './TimerButtons.module.css';
 
-function TimerButtons({ showPause }) {
+function TimerButtons({ showPause, handleStart }) {
   return (
     <div class={styles.buttonDiv}>
-      <button id="start-btn" className={styles.button}>
+      <button
+        id="start-btn"
+        className={styles.button}
+        onClick={handleStart}
+      >
         Start
       </button>
       {showPause && (

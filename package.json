@@ -1,0 +1,23 @@
+{
+  "name": "timesense-timer",
+  "version": "1.0.0",
+  "description": "A visual timer to help with your sense of how much time has passed and how much is left",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ThinkerDreamer/TimeSense-Timer.git"
+  },
+  "author": "Angel Hudgins",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ThinkerDreamer/TimeSense-Timer/issues"
+  },
+  "homepage": "https://github.com/ThinkerDreamer/TimeSense-Timer#readme",
+  "dependencies": {
+    "node": "^19.8.1",
+    "react": "^18.2.0"
+  }
+}

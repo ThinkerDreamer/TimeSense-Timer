@@ -1,0 +1,17 @@
+.button {
+  display: inline-block;
+  padding: 0.5em 1.25em;
+  color: var(--new-background-color);
+  font-size: 1rem;
+  background-color: var(--new-red);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.buttonDiv {
+  display: flex;
+  justify-content: space-evenly;
+  width: 85%;
+  margin: 1em 0;
+}

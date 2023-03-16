@@ -7,8 +7,8 @@ export default defineConfig({
     react({
       jsxImportSource: '@emotion/react',
       babel: {
-        plugins: ['@emotion/babel-plugin']
-      }
-    })
-  ]
+        plugins: ['@emotion/babel-plugin'],
+      },
+    }),
+  ],
 });

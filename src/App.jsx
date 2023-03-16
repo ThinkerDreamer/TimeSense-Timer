@@ -1,20 +1,12 @@
-import logo from './assets/images/logo.svg';
+import Timer from './components/Timer/Timer';
 
 function App() {
   return (
     <div className="app">
-      <header className="app-header">
-        <img src={logo} className="app-logo" alt="logo" />
-        <p className="header">Vite React Starter 💯</p>
-        <p>
-          Vite + React <br />
-          ESLint + Prettier + Stylelint
-          <br />
-          Sass + Emotion + Tailwind
-          <br />
-          Jest + Testing Library
-        </p>
+      <header>
+        <h1 id="title">TimeSense Timer</h1>
       </header>
+      <Timer />
     </div>
   );
 }

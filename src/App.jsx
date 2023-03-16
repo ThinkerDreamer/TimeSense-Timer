@@ -2,9 +2,7 @@ import React from 'react';
 import Timer from './components/Timer/Timer';
 import TimerButtons from './components/TimerButtons';
 import TimeInput from './components/TimeInput';
-import TimeContextProvider, {
-  TimeContext,
-} from './context/TimeContext/TimeContextProvider';
+import { TimeContext } from './context/TimeContext/TimeContextProvider';
 import confetti from 'canvas-confetti';
 
 const sound = new Audio('assets/handpan.wav');
@@ -36,16 +34,19 @@ function App() {
   }
 
   return (
-    <TimeContextProvider>
-      <div className="app">
-        <header>
-          <h1 id="title">TimeSense Timer</h1>
-        </header>
-        <Timer />
-        <TimeInput />
-        {showButtons && <TimerButtons handleStart={handleStart} />}
-      </div>
-    </TimeContextProvider>
+    <div className="app">
+      <header>
+        <h1 id="title">TimeSense Timer</h1>
+      </header>
+      <Timer />
+      <TimeInput />
+      {showButtons && (
+        <TimerButtons
+          handleStart={handleStart}
+          showPause={showPause}
+        />
+      )}
+    </div>
   );
 }
 

@@ -1,32 +1,3 @@
-.app {
-  text-align: center;
-}
-
-.app-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  color: white;
-  font-size: calc(10px + 2vmin);
-  background-color: #282c34;
-}
-
-.app-link {
-  color: #61dafb;
-}
-
-@keyframes app-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 html {
   --old-background-color: #0e032b;
   --old-em-color: #ffefca;
@@ -108,23 +79,6 @@ main {
   margin: 2rem 0 0;
 }
 
-.input-div {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 75%;
-}
-
-.time-input {
-  display: inline-block;
-  width: 3em;
-  padding: 0.5em;
-  color: var(--new-background-color);
-  font-size: 1rem;
-  background-color: var(--new-text-color);
-  border: none;
-  border-radius: 4px;
-}
 
 /* --- Hide arrows in number inputs --- */
 /* Chrome, Safari, Edge, Opera */
@@ -140,94 +94,6 @@ input[type='number'] {
   appearance: textfield;
 }
 
-.button-div {
-  display: flex;
-  justify-content: space-evenly;
-  width: 85%;
-  margin: 1em 0;
-}
-
-.remaining-path-color {
-  color: var(--remaining-path-color);
-}
-
-button {
-  display: inline-block;
-  padding: 0.5em 1.25em;
-  color: var(--new-background-color);
-  font-size: 1rem;
-  background-color: var(--new-red);
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-#pause-btn {
-  display: none;
-}
-
-/* Sets the containers height and width */
-.base-timer {
-  position: relative;
-  width: var(--container-size);
-  max-width: var(--max-container-size);
-  height: var(--container-size);
-  max-height: var(--max-container-size);
-}
-
-/* Removes SVG styling that would hide the time label */
-.base-timer__circle {
-  fill: none;
-  stroke: none;
-}
-
-/* The SVG path that displays the timer's progress */
-.base-timer__path-elapsed {
-  stroke: grey;
-  stroke-width: 9px;
-}
-
-.base-timer__label {
-  position: absolute;
-
-  /* Keep the label aligned to the top */
-  top: 0;
-
-  /* Create a flexible box that centers content vertically and horizontally */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  /* Size should match the parent container */
-  width: var(--container-size);
-  max-width: var(--max-container-size);
-  height: var(--container-size);
-  max-height: var(--max-container-size);
-  color: var(--new-grey);
-  font-size: 3rem;
-}
-
-.base-timer__path-remaining {
-  /* Makes sure the animation starts at the top of the circle */
-  transform: rotate(90deg);
-  transform-origin: center;
-
-  /* One second aligns with the speed of the countdown timer */
-  transition: 1s linear all;
-
-  /* Allows the ring to change color when the color value updates */
-  stroke: currentColor;
-  /* Just as thick as the original ring */
-  stroke-width: 9px;
-
-  /* Rounds the line endings to create a seamless circle */
-  stroke-linecap: round;
-}
-
-.base-timer__svg {
-  /* Flips the svg and makes the animation to move left-to-right */
-  transform: scaleX(-1);
-}
 
 @media screen and (max-width: 1300px) {
   html {

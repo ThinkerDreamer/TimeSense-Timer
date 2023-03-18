@@ -14,6 +14,9 @@ function formatTime(time) {
 
 /* Utility function to zero-pad numbers when needed */
 function zeroPad(unit) {
+  if (unit < 1) {
+    return '00';
+  }
   if (unit < 10) {
     return `0${unit}`;
   }

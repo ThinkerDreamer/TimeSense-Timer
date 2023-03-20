@@ -1,82 +1,152 @@
 import React from 'react';
 import formatTime from '../../utilities/formatTime';
 import styles from './Timer.module.css';
+import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 import { TimeContext } from '../../context/TimeContext/TimeContextProvider';
+import TimerButtons from '../TimerButtons';
+import TimeInput from '../TimeInput';
+import confetti from 'canvas-confetti';
+import Handpan from '../../assets/handpan.wav';
 
-const FULL_DASH_ARRAY = 283; // The diameter in arbitrary units for a circle with radius of 45 units
-const compDocStyle = getComputedStyle(document.documentElement);
+const sound = new Audio(Handpan);
+sound.volume = 0.45;
 
 const COLOR_CODES = {
-  info: { color: compDocStyle.getPropertyValue('--new-green') }, // green
-  warning: {
-    color: compDocStyle.getPropertyValue('--new-orange'), // orange
-  },
-  alert: {
-    color: compDocStyle.getPropertyValue('--new-red'), // red
-  },
+  info: '#5dd9c1', // green
+  warning: '#ffbe86', // orange
+  alert: '#ff729f', // red
 };
 
 function Timer() {
-  const { secondsRemaining, setSecondsRemaining, timerDuration } =
+  const [isTimerRunning, setIsTimerRunning] = React.useState(false);
+  const [isTimerPaused, setIsTimerPaused] = React.useState(false);
+  const [timerKey, setTimerKey] = React.useState(0);
+  const [showControls, setShowControls] = React.useState(true);
+  const [showPause, setShowPause] = React.useState(false);
+  const [showStart, setShowStart] = React.useState(true);
+  const [showReset, setShowReset] = React.useState(false);
+  const { timerDuration, setTimerDuration } =
     React.useContext(TimeContext);
 
-  // Update the dasharray value as time passes, starting with 283
-  // first number is remaining, second is total (283)
-  const circleDasharray = `${(
-    (secondsRemaining / timerDuration) *
-    FULL_DASH_ARRAY
-  ).toFixed(0)} 283`;
+  const [startTime, warningTime, alertTime] = React.useMemo(() => {
+    return [
+      timerDuration * 1,
+      timerDuration * 0.33,
+      timerDuration * 0.12,
+    ];
+  }, [timerDuration]);
 
-  const { alert, warning, info } = COLOR_CODES;
+  React.useEffect(() => {
+    window.addEventListener('mouseover', () => {
+      if (isTimerRunning) {
+        setShowControls(true);
+      }
+    });
+    window.addEventListener('mouseout', () => {
+      if (isTimerRunning) {
+        setShowControls(false);
+      }
+    });
 
-  function setCssVarColor(property, newColor) {
-    document.documentElement.style.setProperty(
-      `${property}`,
-      newColor
+    return () => {
+      window.removeEventListener('mouseover', () => {
+        if (isTimerRunning) {
+          setShowControls(true);
+        }
+      });
+      window.removeEventListener('mouseout', () => {
+        if (isTimerRunning) {
+          setShowControls(false);
+        }
+      });
+    };
+  }, [isTimerRunning]);
+
+  function handleStart() {
+    setIsTimerRunning(true);
+    setShowPause(true);
+    setShowStart(false);
+    setShowReset(true);
+  }
+
+  function handlePause() {
+    setIsTimerPaused(!isTimerPaused);
+  }
+
+  function handleStop() {
+    setIsTimerRunning(false);
+    setShowPause(false);
+    setShowControls(true);
+    setShowStart(true);
+    setShowReset(false);
+    setTimerDuration(0);
+  }
+
+  function handleOnComplete() {
+    sound.play();
+    confetti();
+    handleReset();
+  }
+
+  function handleReset() {
+    handleStop();
+    setTimerKey(prevKey => prevKey + 1);
+  }
+
+  const renderTime = ({ remainingTime }) => {
+    let timeShown = formatTime(remainingTime);
+    if (isTimerPaused) {
+      const timerInterval = setInterval(() => {
+        timeShown =
+          timeShown === formatTime(remainingTime)
+            ? ` &nbsp;&nbsp;:&nbsp;&nbsp;:&nbsp;&nbsp; `
+            : formatTime(remainingTime);
+      }, 500);
+    }
+
+    return (
+      <span className={styles.label} role="timer">
+        {timeShown}
+      </span>
     );
-  }
-
-  // If the remaining time is less than or equal to 10%, change the color to red
-  if (secondsRemaining <= timerDuration) {
-    setCssVarColor('--remaining-path-color', alert.color);
-    // If the remaining time is less than or equal to 25%, change the color to orange
-  } else if (secondsRemaining <= timerDuration) {
-    setCssVarColor('--remaining-path-color', warning.color);
-    // Otherwise, set the color to green
-  } else {
-    setCssVarColor('--remaining-path-color', info.color);
-  }
+  };
 
   return (
     <div className={styles.baseTimer}>
-      <svg
-        className={styles.svg}
-        viewBox="0 0 100 100"
-        xmlns="http://www.w3.org/2000/svg"
+      <CountdownCircleTimer
+        width={'70vh'}
+        maxWidth={'400px'}
+        key={timerKey}
+        isPlaying={isTimerRunning && !isTimerPaused}
+        duration={timerDuration}
+        colors={[
+          COLOR_CODES.info,
+          COLOR_CODES.warning,
+          COLOR_CODES.alert,
+        ]}
+        colorsTime={[startTime, warningTime, alertTime]}
+        trailColor={'var(--button-color)' || '#665687'}
+        rotation={'counterclockwise'}
+        size={400}
+        strokeWidth={40}
+        initialRemainingTime={0}
+        onComplete={handleOnComplete}
       >
-        <g className={styles.circle}>
-          <circle
-            className={styles.pathElapsed}
-            cx="50"
-            cy="50"
-            r="45"
+        {renderTime}
+      </CountdownCircleTimer>
+      {showControls && (
+        <div className={styles.controlsArea}>
+          <TimeInput />
+          <TimerButtons
+            handleStart={handleStart}
+            handleReset={handleReset}
+            handlePause={handlePause}
+            showPause={showPause}
+            showStart={showStart}
+            showReset={showReset}
           />
-          <path
-            id="base-timer-path-remaining"
-            strokeDasharray={circleDasharray}
-            className={`${styles.pathRemaining} ${styles.remainingPathColor}`}
-            d="
-                              M 50, 50
-                              m -45, 0
-                              a 45,45 0 1,0 90,0
-                              a 45,45 0 1,0 -90,0
-                            "
-          />
-        </g>
-      </svg>
-      <span id="base-timer-label" className={styles.label}>
-        {formatTime(secondsRemaining)}
-      </span>
+        </div>
+      )}
     </div>
   );
 }

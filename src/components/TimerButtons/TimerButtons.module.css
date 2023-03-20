@@ -1,12 +1,18 @@
 .button {
   display: inline-block;
   padding: 0.5em 1.25em;
-  color: var(--new-background-color);
+  color: var(--button-text);
   font-size: 1rem;
-  background-color: var(--new-red);
+  background-color: var(--button-color);
   border: none;
   border-radius: 4px;
   cursor: pointer;
+}
+
+.button:hover,
+.button:active {
+  background-color: var(--hover-button-text);
+  color: var(--new-background-color);
 }
 
 .buttonDiv {

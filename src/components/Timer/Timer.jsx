@@ -18,9 +18,15 @@ const COLOR_CODES = {
 };
 
 function Timer() {
-  const [isTimerRunning, setIsTimerRunning] = React.useState(false);
+  // isTimerStarted controls the whole start-to-end state
+  const [isTimerStarted, setIsTimerStarted] = React.useState(false);
+  // isTimerPaused is used for controlling the flashing numbers
   const [isTimerPaused, setIsTimerPaused] = React.useState(false);
+  const [areNumbersVisible, setAreNumbersVisible] =
+    React.useState(true);
+  // timerKey is incremented on every recreation of the timer
   const [timerKey, setTimerKey] = React.useState(0);
+
   const [showControls, setShowControls] = React.useState(true);
   const [showPause, setShowPause] = React.useState(false);
   const [showStart, setShowStart] = React.useState(true);
@@ -28,87 +34,106 @@ function Timer() {
   const { timerDuration, setTimerDuration } =
     React.useContext(TimeContext);
 
-  const [startTime, warningTime, alertTime] = React.useMemo(() => {
-    return [
-      timerDuration * 1,
-      timerDuration * 0.33,
-      timerDuration * 0.12,
-    ];
+  // Memoize the warningTime and alertTime for each cycle
+  const [warningTime, alertTime] = React.useMemo(() => {
+    return [timerDuration * 0.33, timerDuration * 0.12];
   }, [timerDuration]);
 
+  // While paused, the numbers flash and the colons are still
   React.useEffect(() => {
-    window.addEventListener('mouseover', () => {
-      if (isTimerRunning) {
-        setShowControls(true);
-      }
-    });
-    window.addEventListener('mouseout', () => {
-      if (isTimerRunning) {
-        setShowControls(false);
-      }
-    });
+    const flashingInterval = setInterval(() => {
+      setAreNumbersVisible(prev => !prev);
+    }, 500);
 
-    return () => {
-      window.removeEventListener('mouseover', () => {
-        if (isTimerRunning) {
-          setShowControls(true);
-        }
-      });
-      window.removeEventListener('mouseout', () => {
-        if (isTimerRunning) {
-          setShowControls(false);
-        }
-      });
-    };
-  }, [isTimerRunning]);
+    return () => clearInterval(flashingInterval);
+  }, [isTimerPaused]);
 
+  // Handler for the start button:
+  // shows/hides elements as needed
   function handleStart() {
-    setIsTimerRunning(true);
+    if (!isTimerStarted) {
+      setIsTimerStarted(true);
+    }
+    setIsTimerPaused(false);
     setShowPause(true);
     setShowStart(false);
     setShowReset(true);
   }
 
+  // Handler for the pause button
   function handlePause() {
-    setIsTimerPaused(!isTimerPaused);
+    setIsTimerPaused(true);
+    setShowPause(false);
+    setShowStart(true);
   }
 
+  // Handler for ending the timer whether
+  // it ended on time or it was reset
   function handleStop() {
-    setIsTimerRunning(false);
+    setIsTimerStarted(false);
+    setIsTimerPaused(false);
     setShowPause(false);
     setShowControls(true);
     setShowStart(true);
     setShowReset(false);
-    setTimerDuration(0);
+    setTimerDuration(0); // if not used, React will crash
   }
 
+  // Handler for when the timer runs out
   function handleOnComplete() {
     sound.play();
     confetti();
     handleReset();
   }
 
+  // Handler for the reset button: increments
+  // the key to create a new timer instance
   function handleReset() {
     handleStop();
     setTimerKey(prevKey => prevKey + 1);
   }
 
+  // Function to render the time with numbers that
+  // flash while the timer is paused
   const renderTime = ({ remainingTime }) => {
-    let timeShown = formatTime(remainingTime);
-    if (isTimerPaused) {
-      const timerInterval = setInterval(() => {
-        timeShown =
-          timeShown === formatTime(remainingTime)
-            ? ` &nbsp;&nbsp;:&nbsp;&nbsp;:&nbsp;&nbsp; `
-            : formatTime(remainingTime);
-      }, 500);
-    }
+    const hours = Math.floor(remainingTime / 3600);
+    const minutes = Math.floor(remainingTime / 60);
+    const seconds = remainingTime % 60;
 
-    return (
-      <span className={styles.label} role="timer">
-        {timeShown}
-      </span>
-    );
+    const hoursDisplay = hours < 10 ? `0${hours}` : hours;
+    const minutesDisplay = minutes < 10 ? `0${minutes}` : minutes;
+    const secondsDisplay = seconds < 10 ? `0${seconds}` : seconds;
+
+    // Split the timer string into separate elements for the numbers and colons
+    const elements =
+      `${hoursDisplay}:${minutesDisplay}:${secondsDisplay}`
+        .split('')
+        .map((char, i) => {
+          if (!isTimerPaused) {
+            return char;
+          } else {
+            if (/\d/.test(char)) {
+              // If the character is a digit, wrap it in a span with the flashing effect
+              return (
+                <span
+                  key={i}
+                  style={{
+                    visibility: areNumbersVisible
+                      ? 'visible'
+                      : 'hidden',
+                  }}
+                >
+                  {char}
+                </span>
+              );
+            } else {
+              // If the character is a colon, just return it as-is
+              return char;
+            }
+          }
+        });
+
+    return <div className={styles.label}>{elements}</div>;
   };
 
   return (
@@ -117,14 +142,15 @@ function Timer() {
         width={'70vh'}
         maxWidth={'400px'}
         key={timerKey}
-        isPlaying={isTimerRunning && !isTimerPaused}
+        isPlaying={isTimerStarted && !isTimerPaused}
         duration={timerDuration}
         colors={[
-          COLOR_CODES.info,
+          COLOR_CODES.info, // This is for the beginning color
           COLOR_CODES.warning,
           COLOR_CODES.alert,
+          COLOR_CODES.alert, // This is for the end color
         ]}
-        colorsTime={[startTime, warningTime, alertTime]}
+        colorsTime={[timerDuration, warningTime, alertTime, 0]}
         trailColor={'var(--button-color)' || '#665687'}
         rotation={'counterclockwise'}
         size={400}

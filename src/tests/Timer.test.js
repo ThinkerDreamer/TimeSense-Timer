@@ -1,55 +1,45 @@
-import { render, fireEvent, screen } from '@testing-library/react';
+import React from 'react';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import '@testing-library/jest-dom';
 import Timer from '../components/Timer/Timer';
+import TimeContextProvider from '../context/TimeContext/TimeContextProvider';
+
+const mockAudio = jest.fn();
+
+jest.mock('../assets/handpan.wav', () => {
+  return {
+    default: mockAudio,
+  };
+});
+
+beforeEach(() => {
+  mockAudio.mockClear();
+});
 
 // Test for the Timer component
 describe('Timer', () => {
-  let timer;
-
+  const wrapper = ({ children }) => (
+    <TimeContextProvider>{children}</TimeContextProvider>
+  );
   beforeEach(() => {
-    timer = new Timer();
-    render(<Timer />);
+    render(<Timer />, { wrapper });
   });
 
   // Test for the start method
   describe('start', () => {
-    test('starts the timer', () => {
-      timer.handleStart();
-      expect(timer.isTimerStarted).toBe(true);
+    test('starts the timer', async () => {
+      const user = userEvent.setup();
+      await user.type(screen.getByPlaceholderText('s'), '10');
+      user.click(screen.getByText('Start'));
+      expect(screen.getByText('00:00:10')).toBeInTheDocument();
     });
   });
 
   // Test for the stop method
-
   describe('stop', () => {
-    test.todo('stops the timer', () => {
-      timer.start();
-      timer.stop();
-      expect(timer.running).toBe(false);
-    });
-
-    test.todo('does not stop a timer that is not running', () => {
-      timer.stop();
-      expect(timer.running).toBe(false);
-    });
+    test.todo('stops the timer');
   });
-});
 
-function filterByTerm(inputArr, searchTerm) {
-  return inputArr.filter(arrayElement =>
-    arrayElement.url.match(searchTerm)
-  );
-}
-
-describe('Filter function', () => {
-  test('it should filter by a search term (link)', () => {
-    const input = [
-      { id: 1, url: 'https://www.url1.dev' },
-      { id: 2, url: 'https://www.url2.dev' },
-      { id: 3, url: 'https://www.link3.dev' },
-    ];
-
-    const output = [{ id: 3, url: 'https://www.link3.dev' }];
-
-    expect(filterByTerm(input, 'link')).toEqual(output);
-  });
+  test.todo('does not stop a timer that is not running');
 });

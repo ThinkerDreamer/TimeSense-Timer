@@ -1,0 +1,106 @@
+html {
+  --container-size: 70vw;
+  --max-container-size: 400px;
+  --new-text-color: #dbc5e7;
+  --new-green: #5dd9c1;
+  --new-orange: #ffbe86;
+  --new-red: #ff729f;
+  --new-background-color: #190933;
+  --button-color: #5f507c;
+  --new-purple: #b084cc;
+  --button-text: #e4d4ed;
+  --new-grey: #bdbfc7;
+  --hover-button-text: #acfcd9;
+  max-height: 100vh;
+  margin: 0;
+  color: var(--new-text-color);
+  font-size: 1.2vw;
+  font-family: 'Roboto Mono', monospace;
+  background-color: var(--new-background-color);
+}
+
+header {
+  width: 80vw;
+  margin: 0 auto;
+}
+
+h1 {
+  margin-top: 0;
+  margin-bottom: 5px;
+  font-weight: 500;
+  font-size: 3rem;
+  text-align: center;
+}
+
+p {
+  margin-bottom: 2rem;
+  font-size: 1.2rem;
+  line-height: 1.6;
+}
+
+em {
+  color: var(--new-text-color);
+  font-weight: bold;
+  font-style: normal;
+}
+
+main {
+  width: var(--container-size);
+  min-width: 150px;
+  max-width: var(--max-container-size);
+  margin: 2em auto 0;
+  text-align: center;
+}
+
+.pop-out-icon {
+  display: flex;
+  justify-content: end;
+  margin-top: 0;
+  cursor: pointer;
+}
+
+.pop-out-icon:hover,
+.pop-out-icon:focus {
+  color: var(--new-text-color);
+}
+
+.controls-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 2rem 0 0;
+}
+
+/* --- Hide arrows in number inputs --- */
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  margin: 0;
+  -webkit-appearance: none;
+}
+
+/* Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+@media screen and (max-width: 1300px) {
+  html {
+    font-size: 1.2rem;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  html {
+    font-size: 5vw;
+  }
+
+  .base-timer__label {
+    font-size: 2rem;
+  }
+  h1 {
+    font-size: 1.5rem;
+  }
+}

@@ -1,0 +1,23 @@
+.button {
+  display: inline-block;
+  padding: 0.5em 1.25em;
+  color: var(--button-text);
+  font-size: 1rem;
+  background-color: var(--button-color);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.button:hover,
+.button:active {
+  background-color: var(--hover-button-text);
+  color: var(--new-background-color);
+}
+
+.buttonDiv {
+  display: flex;
+  justify-content: space-evenly;
+  width: 85%;
+  margin: 1em 0;
+}

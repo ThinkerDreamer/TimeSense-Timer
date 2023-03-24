@@ -1,4 +1,5 @@
 import React from 'react';
+import VisuallyHidden from '../VisuallyHidden';
 import styles from './TimeInput.module.css';
 import { TimeContext } from '../../context/TimeContext/TimeContextProvider';
 
@@ -16,6 +17,7 @@ function TimeInput() {
 
   return (
     <div className={styles.inputDiv}>
+      <VisuallyHidden>Hours input</VisuallyHidden>
       <input
         className={styles.timeInput}
         id="hours"
@@ -26,7 +28,9 @@ function TimeInput() {
         value={hours}
         onChange={e => setHours(e.target.value)}
       />
+
       <span>:</span>
+      <VisuallyHidden>Minutes input</VisuallyHidden>
       <input
         className={styles.timeInput}
         id="minutes"
@@ -37,7 +41,9 @@ function TimeInput() {
         value={minutes}
         onChange={e => setMinutes(e.target.value)}
       />
+
       <span>:</span>
+      <VisuallyHidden>Seconds input</VisuallyHidden>
       <input
         className={styles.timeInput}
         id="seconds"

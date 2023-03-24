@@ -1,6 +1,6 @@
 {
   "name": "timesense-timer",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "A visual timer to help with your sense of how much time has passed and how much is left",
   "scripts": {
     "dev": "vite",

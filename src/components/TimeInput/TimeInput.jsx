@@ -11,7 +11,7 @@ function TimeInput() {
 
   React.useEffect(() => {
     setTimerDuration(
-      Number(seconds) * 1 + Number(minutes) * 60 + Number(hours) * 60
+      Number(seconds) * 1 + Number(minutes) * 60 + Number(hours) * 3600
     );
   }, [hours, minutes, seconds, setTimerDuration]);
 

@@ -95,8 +95,9 @@ function Timer() {
   // Function to render the time with numbers that
   // flash while the timer is paused
   const renderTime = ({ remainingTime }) => {
+    // Convert the remaining time to hours, minutes, and seconds
     const hours = Math.floor(remainingTime / 3600);
-    const minutes = Math.floor(remainingTime / 60);
+    const minutes = Math.floor((remainingTime % 3600) / 60);
     const seconds = remainingTime % 60;
 
     const hoursDisplay = hours < 10 ? `0${hours}` : hours;

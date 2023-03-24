@@ -1,4 +1,4 @@
-# TimeSense Timer - https://thinkerdreamer.github.io/TimeSense-Timer/app/
+# TimeSense Timer - https://thinkerdreamer.github.io/TimeSense-Timer/
  
 Forked from [Mateusz Rybczonek's Animated Countdown Timer](https://css-tricks.com/how-to-create-an-animated-countdown-timer-with-html-css-and-javascript/)
 

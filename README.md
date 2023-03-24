@@ -3,7 +3,15 @@
 Forked from [Mateusz Rybczonek's Animated Countdown Timer](https://css-tricks.com/how-to-create-an-animated-countdown-timer-with-html-css-and-javascript/)
 
 ## UPDATE: Version 2.0.0 has been released with a new UI made in React.
-I will update this README soon.
+I will update this README soon.  
+### Todos:
+- Fix mobile-responsiveness for small screen sizes
+- auto clear inputs on reset and timer finish
+- auto show/hide title, inputs, and buttons while timer is running
+- re-implement pop-out button from original vanilla JS version
+- add feature to share timers
+- update README with new images
+
 ## README for Version 1.0.0
 
 ![timesense-timer](https://user-images.githubusercontent.com/74881094/212691503-a14a4a47-c6a5-4854-afca-db0efb292f75.png)

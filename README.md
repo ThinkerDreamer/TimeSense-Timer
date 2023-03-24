@@ -2,6 +2,10 @@
  
 Forked from [Mateusz Rybczonek's Animated Countdown Timer](https://css-tricks.com/how-to-create-an-animated-countdown-timer-with-html-css-and-javascript/)
 
+## UPDATE: Version 2.0.0 has been released with a new UI made in React.
+I will update this README soon.
+## README for Version 1.0.0
+
 ![timesense-timer](https://user-images.githubusercontent.com/74881094/212691503-a14a4a47-c6a5-4854-afca-db0efb292f75.png)
 
 I created this elegant visual timer to help myself and other people like me who struggle with **time blindness** visualize exactly how much of the allotted time has passed and how much is remaining.

@@ -47,6 +47,29 @@ function Timer() {
     return () => clearInterval(flashingInterval);
   }, [isTimerPaused]);
 
+//   // Hide the controls while timer is running, but show them
+//   // when the mouse is moved
+//   const hideControlsTimeoutRef = React.useRef(null);
+//   React.useEffect(() => {
+//     const handleMouseMove = () => {
+//       setShowControls(true);
+//       window.removeEventListener('mouseleave', () =>
+//         clearTimeout(hideControlsTimeoutRef.current)
+//       );
+//       clearTimeout(hideControlsTimeoutRef.current);
+//       hideControlsTimeoutRef.current = setTimeout(() => {
+//         setShowControls(false);
+//       }, 2000);
+//     };
+//     window.addEventListener('mousemove', handleMouseMove);
+//     window.addEventListener('mousemove', handleMouseMove);
+
+//     return () => {
+//       window.removeEventListener('mousemove', handleMouseMove);
+//       clearTimeout(hideControlsTimeoutRef.current);
+//     };
+//   }, [isTimerStarted]);
+
   // Handler for the start button:
   // shows/hides elements as needed
   function handleStart() {
@@ -64,6 +87,7 @@ function Timer() {
     setIsTimerPaused(true);
     setShowPause(false);
     setShowStart(true);
+    setShowControls(true);
   }
 
   // Handler for ending the timer whether
@@ -82,7 +106,6 @@ function Timer() {
   function handleOnComplete() {
     sound.play();
     confetti();
-    handleReset();
   }
 
   // Handler for the reset button: increments
@@ -136,11 +159,24 @@ function Timer() {
     return <div className={styles.label}>{elements}</div>;
   };
 
+  const [timerSize, setTimerSize] = React.useState(() => {
+    const width = window.innerWidth;
+    return width < 600 ? width * 0.8 : 400;
+  });
+
+  React.useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      setTimerSize(width < 600 ? width * 0.8 : 400);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
     <div className={styles.baseTimer}>
       <CountdownCircleTimer
-        width={'70vh'}
-        maxWidth={'400px'}
         key={timerKey}
         isPlaying={isTimerStarted && !isTimerPaused}
         duration={timerDuration}
@@ -153,8 +189,8 @@ function Timer() {
         colorsTime={[timerDuration, warningTime, alertTime, 0]}
         trailColor={'var(--button-color)' || '#665687'}
         rotation={'counterclockwise'}
-        size={400}
-        strokeWidth={40}
+        size={timerSize}
+        strokeWidth={timerSize * 0.1}
         initialRemainingTime={0}
         onComplete={handleOnComplete}
       >

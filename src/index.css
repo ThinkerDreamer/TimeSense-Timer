@@ -11,7 +11,7 @@ html {
   --button-text: #e4d4ed;
   --new-grey: #bdbfc7;
   --hover-button-text: #acfcd9;
-  max-height: 100vh;
+  height: 100vh;
   margin: 0;
   color: var(--new-text-color);
   font-size: 1.2vw;
@@ -48,7 +48,7 @@ main {
   width: var(--container-size);
   min-width: 150px;
   max-width: var(--max-container-size);
-  margin: 2em auto 0;
+  margin: 0 auto;
   text-align: center;
 }
 
@@ -93,9 +93,9 @@ input[type='number'] {
 }
 
 @media screen and (max-width: 650px) {
-  html {
+  /* html {
     font-size: 5vw;
-  }
+  } */
 
   .base-timer__label {
     font-size: 2rem;

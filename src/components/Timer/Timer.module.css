@@ -1,9 +1,4 @@
 .label {
-  position: absolute;
-
-  /* Keep the label aligned to the top */
-  top: 0;
-
   /* Create a flexible box that centers content vertically and horizontally */
   display: flex;
   align-items: center;
@@ -15,7 +10,7 @@
   height: var(--container-size);
   max-height: var(--max-container-size);
   color: var(--new-text-color);
-  font-size: 3rem;
+  font-size: calc(2.3rem + 1vw);
 }
 
 /* Sets the containers height and width */

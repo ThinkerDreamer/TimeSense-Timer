@@ -1,6 +1,6 @@
 {
   "name": "timesense-timer",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A visual timer to help with your sense of how much time has passed and how much is left",
   "scripts": {
     "dev": "vite",
@@ -72,11 +72,10 @@
     "postcss-scss": "^4.0.4",
     "postcss-syntax": "^0.36.2",
     "prettier": "^2.7.1",
-    "prettier-plugin-style-order": "^0.2.2",
     "prettier-plugin-tailwindcss": "^0.1.13",
     "react-test-renderer": "^18.2.0",
     "stylelint": "^14.11.0",
-    "stylelint-config-idiomatic-order": "^8.1.0",
+    "stylelint-config-idiomatic-order": "^10.0.0",
     "stylelint-config-prettier-scss": "^0.0.1",
     "stylelint-config-standard-scss": "^5.0.0",
     "stylelint-scss": "^4.3.0",

@@ -1,7 +1,6 @@
 import React from 'react';
 import styles from './Timer.module.css';
 import { CountdownCircleTimer } from 'react-countdown-circle-timer';
-import { TimeContext } from '../../context/TimeContext/TimeContextProvider';
 import TimerButtons from '../TimerButtons';
 import TimeInput from '../TimeInput';
 import confetti from 'canvas-confetti';
@@ -21,17 +20,27 @@ function Timer() {
   const [isTimerStarted, setIsTimerStarted] = React.useState(false);
   // isTimerPaused is used for controlling the flashing numbers
   const [isTimerPaused, setIsTimerPaused] = React.useState(false);
-  const [areNumbersVisible, setAreNumbersVisible] =
-    React.useState(true);
+
   // timerKey is incremented on every recreation of the timer
   const [timerKey, setTimerKey] = React.useState(0);
 
-  const [showControls, setShowControls] = React.useState(true);
-  const [showPause, setShowPause] = React.useState(false);
-  const [showStart, setShowStart] = React.useState(true);
-  const [showReset, setShowReset] = React.useState(false);
-  const { timerDuration, setTimerDuration } =
-    React.useContext(TimeContext);
+  const [showPauseButton, setShowPauseButton] = React.useState(false);
+  const [showStartButton, setShowStartButton] = React.useState(true);
+  const [showResetButton, setShowResetButton] = React.useState(false);
+
+  const [hours, setHours] = React.useState('');
+  const [minutes, setMinutes] = React.useState('');
+  const [seconds, setSeconds] = React.useState('');
+
+  const [timerDuration, setTimerDuration] = React.useState(0);
+
+  React.useEffect(() => {
+    const newDuration =
+      Number(hours) * 3600 +
+      Number(minutes) * 60 +
+      Number(seconds) * 1;
+    setTimerDuration(newDuration);
+  }, [hours, minutes, seconds, setTimerDuration]);
 
   // Memoize the warningTime and alertTime for each cycle
   const [warningTime, alertTime] = React.useMemo(() => {
@@ -39,6 +48,8 @@ function Timer() {
   }, [timerDuration]);
 
   // While paused, the numbers flash and the colons are still
+  const [areNumbersVisible, setAreNumbersVisible] =
+    React.useState(true);
   React.useEffect(() => {
     const flashingInterval = setInterval(() => {
       setAreNumbersVisible(prev => !prev);
@@ -49,32 +60,30 @@ function Timer() {
 
   // Handler for the start button:
   // shows/hides elements as needed
-  function handleStart() {
+  function startButtonHandler() {
     if (!isTimerStarted) {
       setIsTimerStarted(true);
     }
     setIsTimerPaused(false);
-    setShowPause(true);
-    setShowStart(false);
-    setShowReset(true);
+    setShowPauseButton(true);
+    setShowStartButton(false);
+    setShowResetButton(true);
   }
 
   // Handler for the pause button
-  function handlePause() {
+  function pauseButtonHandler() {
     setIsTimerPaused(true);
-    setShowPause(false);
-    setShowStart(true);
+    setShowPauseButton(false);
+    setShowStartButton(true);
   }
 
   // Handler for ending the timer whether
   // it ended on time or it was reset
-  function handleStop() {
+  function handleOnTimerEndingOrReset() {
     setIsTimerStarted(false);
     setIsTimerPaused(false);
-    setShowPause(false);
-    setShowControls(true);
-    setShowStart(true);
-    setShowReset(false);
+    setShowPauseButton(false);
+    setShowStartButton(true);
     setTimerDuration(0); // if not used, React will crash
   }
 
@@ -82,13 +91,16 @@ function Timer() {
   function handleOnComplete() {
     sound.play();
     confetti();
-    handleReset();
+    setShowResetButton(true);
   }
 
   // Handler for the reset button: increments
   // the key to create a new timer instance
-  function handleReset() {
-    handleStop();
+  function resetButtonHandler() {
+    handleOnTimerEndingOrReset();
+    setHours('');
+    setMinutes('');
+    setSeconds('');
     setTimerKey(prevKey => prevKey + 1);
   }
 
@@ -136,11 +148,24 @@ function Timer() {
     return <div className={styles.label}>{elements}</div>;
   };
 
+  const [timerSize, setTimerSize] = React.useState(() => {
+    const width = window.innerWidth;
+    return width < 600 ? width * 0.8 : 400;
+  });
+
+  React.useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      setTimerSize(width < 600 ? width * 0.8 : 400);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
     <div className={styles.baseTimer}>
       <CountdownCircleTimer
-        width={'70vh'}
-        maxWidth={'400px'}
         key={timerKey}
         isPlaying={isTimerStarted && !isTimerPaused}
         duration={timerDuration}
@@ -153,26 +178,28 @@ function Timer() {
         colorsTime={[timerDuration, warningTime, alertTime, 0]}
         trailColor={'var(--button-color)' || '#665687'}
         rotation={'counterclockwise'}
-        size={400}
-        strokeWidth={40}
+        size={timerSize}
+        strokeWidth={timerSize * 0.1}
         initialRemainingTime={0}
         onComplete={handleOnComplete}
       >
         {renderTime}
       </CountdownCircleTimer>
-      {showControls && (
-        <div className={styles.controlsArea}>
-          <TimeInput />
-          <TimerButtons
-            handleStart={handleStart}
-            handleReset={handleReset}
-            handlePause={handlePause}
-            showPause={showPause}
-            showStart={showStart}
-            showReset={showReset}
-          />
-        </div>
-      )}
+      <div className={styles.controlsBox}>
+        <TimeInput
+          time={[hours, minutes, seconds]}
+          setTime={[setHours, setMinutes, setSeconds]}
+          setTimerDuration={setTimerDuration}
+        />
+        <TimerButtons
+          handleStart={startButtonHandler}
+          handleReset={resetButtonHandler}
+          handlePause={pauseButtonHandler}
+          showPause={showPauseButton}
+          showStart={showStartButton}
+          showReset={showResetButton}
+        />
+      </div>
     </div>
   );
 }

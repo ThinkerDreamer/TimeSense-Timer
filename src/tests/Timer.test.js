@@ -3,8 +3,6 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 import Timer from '../components/Timer/Timer';
-import TimeContextProvider from '../context/TimeContext/TimeContextProvider';
-
 const mockAudio = jest.fn();
 
 jest.mock('../assets/handpan.wav', () => {
@@ -19,11 +17,8 @@ beforeEach(() => {
 
 // Test for the Timer component
 describe('Timer', () => {
-  const wrapper = ({ children }) => (
-    <TimeContextProvider>{children}</TimeContextProvider>
-  );
   beforeEach(() => {
-    render(<Timer />, { wrapper });
+    render(<Timer />);
   });
 
   // Test for the start method

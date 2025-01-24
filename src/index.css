@@ -11,7 +11,7 @@ html {
   --button-text: #e4d4ed;
   --new-grey: #bdbfc7;
   --hover-button-text: #acfcd9;
-  max-height: 100vh;
+  height: 100vh;
   margin: 0;
   color: var(--new-text-color);
   font-size: 1.2vw;
@@ -19,9 +19,8 @@ html {
   background-color: var(--new-background-color);
 }
 
-header {
-  width: 80vw;
-  margin: 0 auto;
+* {
+  margin: 0;
 }
 
 h1 {
@@ -38,29 +37,34 @@ p {
   line-height: 1.6;
 }
 
-em {
-  color: var(--new-text-color);
-  font-weight: bold;
-  font-style: normal;
+
+.outer-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-main {
-  width: var(--container-size);
-  min-width: 150px;
-  max-width: var(--max-container-size);
-  margin: 2em auto 0;
-  text-align: center;
-}
-
-.pop-out-icon {
+.popout-icon-container {
   display: flex;
   justify-content: end;
-  margin-top: 0;
-  cursor: pointer;
+  align-items: center;
+  align-self: end;
 }
 
-.pop-out-icon:hover,
-.pop-out-icon:focus {
+.popout-icon {
+  margin-top: 0;
+  cursor: pointer;
+  margin-right: 2rem;
+  border: 0;
+  color: var(--button-color);
+  background-color: inherit;
+  font-size: 1rem;
+  padding: 0;
+}
+
+.popout-icon:hover,
+.popout-icon:focus {
   color: var(--new-text-color);
 }
 
@@ -93,9 +97,9 @@ input[type='number'] {
 }
 
 @media screen and (max-width: 650px) {
-  html {
+  /* html {
     font-size: 5vw;
-  }
+  } */
 
   .base-timer__label {
     font-size: 2rem;

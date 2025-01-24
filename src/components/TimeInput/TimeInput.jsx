@@ -1,21 +1,11 @@
 import React from 'react';
 import VisuallyHidden from '../VisuallyHidden';
 import styles from './TimeInput.module.css';
-import { TimeContext } from '../../context/TimeContext/TimeContextProvider';
 
-function TimeInput() {
-  const { setTimerDuration } = React.useContext(TimeContext);
-  const [hours, setHours] = React.useState('');
-  const [minutes, setMinutes] = React.useState('');
-  const [seconds, setSeconds] = React.useState('');
+function TimeInput({ time, setTime, setTimerDuration }) {
+  const [hours, minutes, seconds] = time;
+  const [setHours, setMinutes, setSeconds] = setTime;
 
-  React.useEffect(() => {
-    const newDuration =
-      Number(hours) * 3600 +
-      Number(minutes) * 60 +
-      Number(seconds) * 1;
-    setTimerDuration(newDuration);
-  }, [hours, minutes, seconds, setTimerDuration]);
 
   return (
     <div className={styles.inputDiv}>

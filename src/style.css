@@ -25,6 +25,7 @@ body {
 /* The whole app fits the window, whatever its size, so the ring
    sizes itself to the space left over by the other elements. */
 .app {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -201,8 +202,9 @@ body {
   display: inline-block;
 }
 
-/* While a timer is going, the title and inputs go away so the ring can
-   use the space. The buttons fade out and come back on hover. */
+/* While a timer is going, the title and inputs go away and the buttons
+   float over the ring, so the ring can use the whole window. The
+   buttons fade out and come back on hover. */
 .app[data-status='running'] .title,
 .app[data-status='paused'] .title,
 .app[data-status='running'] .inputs,
@@ -222,6 +224,23 @@ body {
 .app[data-status='paused']:is(:hover, :focus-within)
   :is(.buttons, .popout) {
   opacity: 1;
+}
+
+.app[data-status='running'] :is(.top, .controls),
+.app[data-status='paused'] :is(.top, .controls) {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+}
+
+.app[data-status='running'] .top,
+.app[data-status='paused'] .top {
+  top: clamp(8px, 2vmin, 24px);
+}
+
+.app[data-status='running'] .controls,
+.app[data-status='paused'] .controls {
+  bottom: clamp(8px, 2vmin, 24px);
 }
 
 .is-popout .popout {

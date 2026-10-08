@@ -1,0 +1,249 @@
+:root {
+  --text-color: #dbc5e7;
+  --background-color: #190933;
+  --button-color: #5f507c;
+  --button-text: #e4d4ed;
+  --hover-button-color: #acfcd9;
+  --input-text: #190933;
+  /* The ring never grows past this, even on huge screens */
+  --max-ring-size: 560px;
+
+  color: var(--text-color);
+  font-family: 'Roboto Mono', monospace;
+  background-color: var(--background-color);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+body {
+  background-color: var(--background-color);
+}
+
+/* The whole app fits the window, whatever its size, so the ring
+   sizes itself to the space left over by the other elements. */
+.app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  height: 100dvh;
+  padding: clamp(8px, 2vmin, 24px) 16px;
+  gap: clamp(8px, 2vmin, 24px);
+}
+
+.top {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 1.5rem;
+}
+
+.title {
+  font-weight: 500;
+  font-size: clamp(1.5rem, 6vmin, 3rem);
+  text-align: center;
+}
+
+.popout {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 1.25rem;
+  height: 1.25rem;
+  padding: 0;
+  color: var(--button-color);
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.popout:hover,
+.popout:focus-visible {
+  color: var(--text-color);
+}
+
+/* --- Ring --- */
+
+.ring-area {
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  container-type: size;
+}
+
+.ring {
+  position: relative;
+  width: min(100cqw, 100cqh, var(--max-ring-size));
+  aspect-ratio: 1;
+  container-type: inline-size;
+}
+
+.ring svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke-width: 10;
+}
+
+.ring-trail {
+  stroke: var(--button-color);
+}
+
+.ring-remaining {
+  stroke-dasharray: 1;
+  stroke-linecap: round;
+}
+
+.label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Scales with the ring, not the window */
+  font-size: 14cqi;
+  font-variant-numeric: tabular-nums;
+}
+
+.app[data-status='paused'] .digit {
+  animation: blink 1s steps(1) infinite;
+}
+
+@keyframes blink {
+  50% {
+    visibility: hidden;
+  }
+}
+
+/* --- Inputs and buttons --- */
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding-bottom: 0.5rem;
+}
+
+.inputs {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.inputs input {
+  width: 3.5em;
+  padding: 0.5em;
+  color: var(--input-text);
+  font: inherit;
+  text-align: center;
+  background-color: var(--text-color);
+  border: none;
+  border-radius: 4px;
+  appearance: textfield;
+}
+
+.inputs input::-webkit-outer-spin-button,
+.inputs input::-webkit-inner-spin-button {
+  margin: 0;
+  appearance: none;
+}
+
+.buttons {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+}
+
+.buttons button {
+  padding: 0.5em 1.25em;
+  color: var(--button-text);
+  font: inherit;
+  background-color: var(--button-color);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.buttons button:hover,
+.buttons button:focus-visible {
+  color: var(--background-color);
+  background-color: var(--hover-button-color);
+}
+
+/* --- What shows in each state --- */
+
+.pause,
+.resume,
+.reset {
+  display: none;
+}
+
+.app[data-status='running'] .start,
+.app[data-status='paused'] .start {
+  display: none;
+}
+
+.app[data-status='running'] .pause,
+.app[data-status='paused'] .resume,
+.app[data-status='running'] .reset,
+.app[data-status='paused'] .reset,
+.app[data-status='done'] .reset {
+  display: inline-block;
+}
+
+/* While a timer is going, the title and inputs go away so the ring can
+   use the space. The buttons fade out and come back on hover. */
+.app[data-status='running'] .title,
+.app[data-status='paused'] .title,
+.app[data-status='running'] .inputs,
+.app[data-status='paused'] .inputs,
+.is-popout .title {
+  display: none;
+}
+
+.app[data-status='running'] :is(.buttons, .popout),
+.app[data-status='paused'] :is(.buttons, .popout) {
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.app[data-status='running']:is(:hover, :focus-within)
+  :is(.buttons, .popout),
+.app[data-status='paused']:is(:hover, :focus-within)
+  :is(.buttons, .popout) {
+  opacity: 1;
+}
+
+.is-popout .popout {
+  display: none;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Small windows, like the pop-out: tighter controls */
+@media (max-height: 480px), (max-width: 360px) {
+  .app {
+    font-size: 0.875rem;
+  }
+
+  .controls {
+    gap: 0.5rem;
+  }
+}
